@@ -1,0 +1,26 @@
+package com.practice.model;
+
+public enum IssuerName {
+	Melli,
+	QarzulHosnehMehr,
+	Sepeh,
+	Parsian,
+	QarzulHosnaResalat,
+	Sina,
+	Karafarin,
+	Saman,
+	Maskan,
+	Shahr,
+	Ayandeh,
+	Post,
+	Daay,
+	Saderat,
+	Mellat,
+	Tejarat,
+	Refah,
+	Hekmat,
+	Tourism,
+	Qavamin,
+	Ansar,
+	Pasargad,
+}

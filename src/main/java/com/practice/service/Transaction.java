@@ -1,5 +1,6 @@
 package com.practice.service;
 
+import com.practice.model.User;
 import com.practice.repository.CardRepo;
 import com.practice.repository.UserRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -19,5 +20,7 @@ public class Transaction {
 		this.cardRepo = cardRepo;
 	}
 	
+	public void createAccount(){
 	
+	}
 }
