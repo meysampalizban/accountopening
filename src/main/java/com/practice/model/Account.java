@@ -1,7 +1,9 @@
 package com.practice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,11 +41,23 @@ public class Account {
 	@NotBlank(message = "شماره شبا را وارد کنید")
 	private String shabaNumber;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "issuer_name", length = 7, nullable = false, unique = true)
+	@NotNull(message = "بانک صادر کننده حساب را وارد کنید")
+	private IssuerName issuerName;
+	
+	@Column(name = "issuer_code", length = 6, nullable = false)
+	@NotBlank(message = "شماره صادر کننده بانک را وارد کنید")
+	@Size(max = 6, min = 6, message = "شماره صادر کننده باید 6 رقم باشد")
+	private String issuerCode;
+	
+	
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id",nullable = false)
 	private User user;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = "account")
 	private List<Card> cards;
 	
 	

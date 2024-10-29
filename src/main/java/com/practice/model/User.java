@@ -1,6 +1,7 @@
 package com.practice.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -57,16 +58,17 @@ public class User {
 	
 	@Column(name = "birth_date", unique = false, nullable = false)
 	@NotNull(message = "تاریخ تولد را وارد کنید")
-	@JsonFormat(shape= JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = "user")
 	private List<Address> addresses;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = "user")
 	private List<Account> accounts;
-	
 	
 	
 	@CreationTimestamp

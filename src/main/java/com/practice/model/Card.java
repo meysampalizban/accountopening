@@ -31,7 +31,7 @@ public class Card {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "account_id", nullable = false)
+	@JoinColumn(name = "account_id",nullable = false)
 	private Account account;
 	
 	
@@ -46,33 +46,23 @@ public class Card {
 	private String cvv;
 	
 	
-	@Column(name = "issuer_code", length = 6, nullable = false)
-	@NotBlank(message = "شماره صادر کننده کارت را وارد کنید")
-	@Size(max = 6, min = 6, message = "شماره صادر کننده باید 6 رقم باشد")
-	private String issuerCode;
-	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "issuer_name", length = 7, nullable = false, unique = true)
-	@NotBlank(message = "بانک صادر کننده کارت را وارد کنید")
-	private IssuerName issuerName;
 	
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "card_type", length = 7, nullable = false)
-	@NotBlank(message = "نوع کارت را وارد کنید(نقدی یا اعتباری)")
+	@NotNull(message = "نوع کارت را وارد کنید(نقدی یا اعتباری)")
 	private CardType cardType;
 	
 	
-	@Pattern(regexp = "MM/dd")
-	@DateTimeFormat(pattern = "MM/dd")
-	@NotNull(message = "تاریخ انقصا را وارد کنید")
+	@Pattern(regexp = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$" ,message = "تاریخ انتقا به صورت 09/09 وارد شود")
+	@NotBlank(message = "تاریخ انقصا را وارد کنید")
 	@Column(name = "expiry_date", unique = false, nullable = false)
-	private LocalDate expiryDate;
+	private String expiryDate;
 	
 	
 	@Column(name = "is_active", unique = false, nullable = false)
 	@NotNull(message = "وضعیت کارت را مشخص کنید")
-	private boolean isActive;
+	private Boolean isActive;
 	
 	
 	@CreationTimestamp
