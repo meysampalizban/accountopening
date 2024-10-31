@@ -1,0 +1,17 @@
+{
+  "firstName": "ali",
+  "lastName": "palizban",
+  "nationalId": "0023568711",
+  "phoneNumber": "09381552255",
+  "birthDate": "2000-06-08",
+  "addresses": [
+    {
+      "id": 1,
+      "country": "iran",
+      "street": "shahran",
+      "city": "tehran",
+      "zipCode": "3569416632"
+
+    }
+  ]
+}

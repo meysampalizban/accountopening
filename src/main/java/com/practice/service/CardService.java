@@ -42,7 +42,7 @@ public class CardService {
 	private void checkExistsCardNumber(String cardNumber){
 		if(cardRepo.existsCardByCardNumber(cardNumber)){
 			log.error(" شماره کارت  به ثبت رسیده است");
-			throw new SpecialException(this.msg("cardNumber",Arrays.asList("این  شماره کارت قبلا به ثبت رسیده است")),HttpStatus.BAD_REQUEST);
+			throw new SpecialException(this.msg("cardNumber",Arrays.asList("این  شماره کارت قبلا به ثبت رسیده است")),HttpStatus.BAD_REQUEST.value());
 		}
 	}
 	

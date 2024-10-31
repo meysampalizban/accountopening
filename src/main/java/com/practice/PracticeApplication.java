@@ -10,7 +10,6 @@ public class PracticeApplication extends Thread{
 	
 	public static void main(String[] args){
 		SpringApplication.run(PracticeApplication.class,args);
-		
 	}
 	
 }

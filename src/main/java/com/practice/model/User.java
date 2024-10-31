@@ -3,6 +3,7 @@ package com.practice.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -64,10 +65,12 @@ public class User {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = "user")
+	@Valid
 	private List<Address> addresses;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = "user")
+	@ReadOnlyProperty
 	private List<Account> accounts;
 	
 	

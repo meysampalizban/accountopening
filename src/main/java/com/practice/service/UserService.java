@@ -1,5 +1,6 @@
 package com.practice.service;
 
+import com.practice.dto.Response;
 import com.practice.model.Address;
 import com.practice.model.User;
 import com.practice.repository.AccountRepo;
@@ -10,9 +11,12 @@ import com.practice.validations.SpecialException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +41,12 @@ public class UserService {
 	public User getUserById(Long id){
 		return this.userRepo.findById(id).orElseThrow(() -> {
 			log.error("کاربر یافت نشد");
-			return new SpecialException(this.msg("userNotFound",Arrays.asList("کاربر یافت نشد !!")),HttpStatus.NOT_FOUND);
+			return new SpecialException(this.msg("userNotFound",Arrays.asList("کاربر یافت نشد !!")),HttpStatus.NOT_FOUND.value());
 		});
 	}
 	
 	@Transactional
-	public User createUser(User user){
+	public ResponseEntity<Response> createUser(User user){
 		User userBuild = User.builder().firstName(user.getFirstName()).lastName(user.getLastName())
 				.birthDate(user.getBirthDate()).
 				nationalId(user.getNationalId()).phoneNumber(user.getPhoneNumber()).build();
@@ -59,7 +63,13 @@ public class UserService {
 			this.filterAddress(addressBuild);
 			this.addressRepo.save(addressBuild);
 		}
-		return createdUser;
+		
+		Response res = this.response(HttpStatus.CREATED.value(),this.msg("success",Arrays.asList("با موفقیت به ثبت رسید")));
+		return new ResponseEntity<>(res,new HttpHeaders(),HttpStatus.CREATED);
+	}
+	
+	private Response response(int httpStatus,Map<String,List<Object>> msg){
+		return Response.builder().timeStamp(Instant.now()).statusCode(httpStatus).msg(msg).build();
 	}
 	
 	private Map<String,List<Object>> msg(String key,List<Object> messsage){
@@ -71,7 +81,7 @@ public class UserService {
 	private void checkExistsNationalId(String nationalId){
 		if(userRepo.existsUserByNationalId(nationalId)){
 			log.error(" کد ملی قبلا به ثبت رسیده است");
-			throw new SpecialException(this.msg("nationalId",Arrays.asList("کد ملی قبلا به ثبت رسیده است")),HttpStatus.BAD_REQUEST);
+			throw new SpecialException(this.msg("nationalId",Arrays.asList("کد ملی قبلا به ثبت رسیده است")),HttpStatus.BAD_REQUEST.value());
 		}
 		
 	}
@@ -79,14 +89,14 @@ public class UserService {
 	private void checkExistsPhoneNumber(String phoneNumer){
 		if(userRepo.existsUserByPhoneNumber(phoneNumer)){
 			log.error(" شماره تلفن قبلا به ثبت رسیده است");
-			throw new SpecialException(this.msg("phoneNumer",Arrays.asList(" شماره تلفن قبلا به ثبت رسیده است")),HttpStatus.BAD_REQUEST);
+			throw new SpecialException(this.msg("phoneNumer",Arrays.asList(" شماره تلفن قبلا به ثبت رسیده است")),HttpStatus.BAD_REQUEST.value());
 		}
 	}
 	
 	private void checkExistsZipCode(String zipCode){
 		if(addressRepo.existsAddressesByZipCode(zipCode)){
 			log.error(" کد پستی   قبلا به ثبت رسیده است");
-			throw new SpecialException(this.msg("zipCode",Arrays.asList("این     کد پستی قبلا یه  ثبت رسیده است")),HttpStatus.BAD_REQUEST);
+			throw new SpecialException(this.msg("zipCode",Arrays.asList("این     کد پستی قبلا یه  ثبت رسیده است")),HttpStatus.BAD_REQUEST.value());
 		}
 	}
 	

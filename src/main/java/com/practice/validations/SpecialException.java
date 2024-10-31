@@ -13,9 +13,9 @@ import java.util.Map;
 public class SpecialException extends RuntimeException {
 	
 	private final Map<String,List<Object>> msg;
-	private final HttpStatus httpStatus;
+	private final Integer httpStatus;
 	
-	public SpecialException(Map<String,List<Object>> msg,HttpStatus httpStatus){
+	public SpecialException(Map<String,List<Object>> msg, Integer httpStatus){
 		this.httpStatus = httpStatus;
 		this.msg = msg;
 	}

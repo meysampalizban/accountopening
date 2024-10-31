@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,13 +28,9 @@ public class GlobalExceptionHandler {
 				exception.getBindingResult().getFieldErrors().stream().
 						collect(Collectors.toMap(T -> T.getField()
 								,S -> new ArrayList<>(List.of(S.getDefaultMessage()))
-								,(r,n) -> {
-									r.addAll(n);
-									return r;
-								}));
-		
+								,(r,n) ->{ r.addAll(n); return r; } ));
 		Response res = Response.builder().
-				msg(messages).statusCode(HttpStatus.BAD_REQUEST).timeStamp(Instant.now()).build();
+				msg(messages).statusCode(HttpStatus.BAD_REQUEST.value()).timeStamp(Instant.now()).build();
 		
 		return new ResponseEntity<>(res,new HttpHeaders(),HttpStatus.BAD_REQUEST);
 	}
